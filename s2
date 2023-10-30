@@ -1,3 +1,4 @@
+// recognise strings 
 %option noyywrap
 %{
         #include<stdio.h>
@@ -25,4 +26,30 @@ int main()
         if(f3 == 0)
                 printf("String abb not found!\n");
         return 0;
+}
+//not contain abb
+%{
+        int v=0,n=0;
+%}
+
+%%
+[a|b]*"abb"[a|b]* ;
+. return '\.';
+\n return 0;
+%%
+int yywrap()
+{
+return 1;
+}
+int main()
+{
+        while(yylex())
+{
+printf("%s",yytext);
+}
+       // if(v==0 && n!=0)
+       //         printf("Valid\n");
+       // else
+       //         printf("Invalid\n");
+       // return 0;
 }
