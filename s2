@@ -1,1 +1,28 @@
-
+%option noyywrap
+%{
+        #include<stdio.h>
+        int f1=1,f2=0,f3=0;
+%}
+%%
+"abb"   f3++;
+[a]*    {f1=1;}
+[a]*[b]+  {f2=1;}
+end     return 0;
+%%
+int main()
+{
+        yylex();
+        if(f1 == 1)
+                printf("Pattern a* found!\n");
+        if(f2 == 1)
+                printf("Pattern a*b+ found!\n");
+        if(f3 == 1)
+                printf("String abb found!\n");
+        if(f1 == 0)
+                printf("Pattern a* not found!\n");
+        if(f2 == 0)
+                printf("Pattern a*b+ found!\n");
+        if(f3 == 0)
+                printf("String abb not found!\n");
+        return 0;
+}
