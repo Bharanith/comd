@@ -218,4 +218,109 @@ int main()
         yylex();
 
 }
+//matches deft
+%option noyywrap
 
+%{
+
+#include<stdio.h>
+
+        int fl=0,fl1=0,fl2=0;
+%}
+
+
+%%
+
+
+
+[d]+[a-zA-Z]*[t]$   {printf("%s: ",yytext); fl=1;}
+[a-zA-Z]*[d][e][f][a-zA-Z]* {printf("%s:",yytext); fl2=1;}
+\n return 0;
+
+%%
+
+
+
+int main()
+
+{
+
+        yylex();
+
+        if(fl==1)
+
+                printf("Valid starting in d and ending in l string\n");
+
+        else if(fl2==1)
+
+                printf("Valid string containing def string\n");
+
+        else
+
+                printf("Invalid\n");
+
+        return 0;
+
+}
+//type of token and operator
+%option noyywrap
+%{
+        #include<stdio.h>
+        int ch=0,sp=0,tabs=0;
+%}
+%%
+[\*]  {printf("It is Multiplication token"); ch=1; }
+[\+]    {printf("It is Addition token"); ch=1;}
+[\-] {printf("It is Subtraction token"); ch=1;}
+[\/]  {printf("It is Division token"); ch=1;}
+[\%]    {printf("It is Modulo token"); ch=1;}
+, ;
+\n return 0;
+%%
+int main()
+{
+        yylex();
+        if(ch==1)
+printf(" and it is an operator\n");
+else
+printf(" is NOT an operator\n");
+        return 0;
+
+}
+//line is comment or not
+%{
+        //  #include<stdio.h>
+        int flag=0;
+%}
+%x CMNT
+%%
+"/*" {BEGIN CMNT;}
+<CMNT>. return '\.';
+<CMNT>["]"*/"["] return '\.';
+<CMNT>\n
+<CMNT>"*/" {BEGIN INITIAL ; flag=1;}
+. {
+}
+\n return 0;
+%%
+int yywrap()
+{
+return 1;
+}
+
+int main()
+{
+        while(yylex())
+{
+printf("%s",yytext);
+}
+if(flag==1)
+printf(" is the comment\n");
+else
+printf("This is not a comment\n");
+                //{
+                        // if(flag == 0)
+                        //else
+                        //     printf("%s",yytext);
+                        return 0;
+                }
